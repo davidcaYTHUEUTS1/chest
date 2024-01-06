@@ -76,6 +76,12 @@ Main:AddToggle({
 	end    
 })
 
+--------------------------------
+
+info:AddLabel("buy script Edward Newgate")
+info:AddLabel("thank you ")
+info:AddLabel("Shop : edwardnewgate.site")
+
 
 local player = game.Players.LocalPlayer
 
