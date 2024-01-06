@@ -1,0 +1,190 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/1st-Mars/Misc/main/O')))()
+local Window = OrionLib:MakeWindow({Name = "Nino hub", HidePremium = false, IntroText = "Nino Hub", IntroEnabled = true, SaveConfig = true, ConfigFolder = "Nino hub"})
+
+OrionLib:MakeNotification({
+	Name = "Nino Hub",
+	Content = "Choose Teams",
+	Time = 7
+})
+
+OrionLib:MakeNotification({
+    Name = "Nino hub",
+    Content = "Please Wait loading script,do not enable any function",
+    Time = 5
+})
+
+
+
+----tap------
+
+local Info = Window:MakeTab({
+    Name = "👋 Info",
+    Icon = "rbxassetid://15893991412",
+    PremiumOnly = false
+})
+
+
+
+local Main = Window:MakeTab({
+    Name = "🏡 Main",
+    Icon = "rbxassetid://15893991412",
+    PremiumOnly = false
+})
+
+
+
+
+-----------------------------
+
+Main:AddToggle({
+	Name = "Auto Farm",
+	Default = false,
+	Callback = function(seg)
+		_G.auto_farm = seg
+	end    
+})
+
+Main:AddToggle({
+	Name = "Auto Farm Player",
+	Default = false,
+	Callback = function(no)
+		_G.auto_player = no
+	end    
+})
+
+Main:AddToggle({
+	Name = "Target",
+	Default = false,
+	Callback = function(tt)
+		_G.Target = tt
+	end    
+})
+
+Main:AddToggle({
+	Name = "dismethod",
+	Default = false,
+	Callback = function(tt)
+		_G.dismethod = tt
+	end    
+})
+
+Main:AddToggle({
+	Name = "blockmethod",
+	Default = false,
+	Callback = function(lol)
+		_G.blockmethod = lol
+	end    
+})
+
+
+local player = game.Players.LocalPlayer
+
+function TP(pos)
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+end
+
+function Attack()
+	local A_1 = "Core"
+	local A_2 = "M1"
+	local A_3 = 
+		{
+		}
+	local Event = game:GetService("ReplicatedStorage").Replicator
+	Event:InvokeServer(A_1, A_2, A_3)
+
+end
+spawn(function()
+	while wait() do
+		if _G.auto_farm then
+			pcall(function()
+				for u,z in pairs(game:GetService("Players"):GetPlayers()) do
+					for i,v in pairs(game:GetService("Workspace").Characters.Players:GetChildren()) do
+						if v.Name == z.Name and v.Name ~= player.Character.Name and v:FindFirstChild("Humanoid") and v:FindFirstChild("Humanoid").Health ~= 0 and v:FindFirstChild("HumanoidRootPart") then
+							repeat game:GetService("RunService").Heartbeat:wait()
+								spawn(function()
+									if v:FindFirstChildOfClass("Tool") or v:FindFirstChild("ClientEffect") or v:FindFirstChild("FloorCharge") then
+										game:GetService("VirtualInputManager"):SendKeyEvent(true,"F",false,game)
+										TP(v.HumanoidRootPart.CFrame * _G.blockmethod)
+									else
+										game:GetService("VirtualInputManager"):SendKeyEvent(false,"F",false,game)
+										Attack()
+										TP(v.HumanoidRootPart.CFrame * _G.dismethod)
+									end
+								end)
+							until v:FindFirstChild("Humanoid").Health <= 0 or v == nil or v.Parent == nil or player.Character:FindFirstChild("Humanoid").Health <= 0 or not _G.auto_farm 
+						end
+					end
+				end
+			end)
+		elseif _G.auto_player then
+			pcall(function()
+				for u,z in pairs(game:GetService("Players"):GetPlayers()) do
+					for i,v in pairs(game:GetService("Workspace").Characters.Players:GetChildren()) do
+						if v.Name == _G.Target and v.Name ~= player.Character.Name and v:FindFirstChild("Humanoid") and v:FindFirstChild("Humanoid").Health ~= 0 and v:FindFirstChild("HumanoidRootPart") then
+							repeat game:GetService("RunService").Heartbeat:wait()
+								spawn(function()
+									if v:FindFirstChildOfClass("Tool") or v:FindFirstChild("ClientEffect") or v:FindFirstChild("FloorCharge") then
+										game:GetService("VirtualInputManager"):SendKeyEvent(true,"F",false,game)
+										TP(v.HumanoidRootPart.CFrame * _G.blockmethod)
+									else
+										game:GetService("VirtualInputManager"):SendKeyEvent(false,"F",false,game)
+										Attack()
+										TP(v.HumanoidRootPart.CFrame * _G.dismethod)
+									end
+								end)
+							until v:FindFirstChild("Humanoid").Health <= 0 or v == nil or v.Parent == nil or not _G.Target 
+						end
+					end
+				end
+			end)
+		end
+	end
+end)
+
+spawn(function()
+	while game:GetService("RunService").Stepped:wait(10) do
+		character = game.Players.LocalPlayer.Character 
+		if _G.auto_farm or _G.auto_player then
+			pcall(function()
+				for _, v in pairs(character:GetDescendants()) do
+					pcall(function()
+						if v:IsA("BasePart") then
+							pcall(function()
+								v.CanCollide = false
+							end)
+						end
+					end)
+				end
+			end)
+		end
+	end
+	game:GetService("RunService").Heartbeat:Connect(function()
+		if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") and _G.auto_farm or _G.auto_player then
+			setfflag("HumanoidParallelRemoveNoPhysics", "False")
+			setfflag("HumanoidParallelRemoveNoPhysicsNoSimulate2", "False")
+			game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(11)
+		end
+	end)
+end)
+
+
+-----------------------------------------Button-----------------------------------------------
+
+local ScreenGui = Instance.new("ScreenGui")
+local ImageButton = Instance.new("ImageButton")
+local UICorner = Instance.new("UICorner")
+ScreenGui.Name = ""
+ScreenGui.Parent = game.CoreGui or game.Players.LocalPlayer.PlayerGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ImageButton.Parent = ScreenGui
+ImageButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ImageButton.BorderSizePixel = 0
+ImageButton.Position = UDim2.new(0.120833337, 0, 0.0952890813, 0)
+ImageButton.Size = UDim2.new(0, 50, 0, 50)
+ImageButton.Draggable = true
+ImageButton.Image = "https://www.roblox.com/asset/?id=15893991412"
+UICorner.Parent = ImageButton
+ImageButton.MouseButton1Down:connect(function()
+       game:GetService("VirtualInputManager"):SendKeyEvent(true,305,false,game)
+       game:GetService("VirtualInputManager"):SendKeyEvent(false,305,false,game)
+end)
